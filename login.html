@@ -1,0 +1,154 @@
+/******************************************************************************
+ * CyberShield Assist
+ * Core Initialization Engine
+ * Version: 1.0
+ ******************************************************************************/
+
+class InitializationEngine {
+
+    constructor() {
+
+        this.bootCompleted = false;
+
+        this.currentStep = 0;
+
+        this.initializing = false;
+
+        this.bootDelay = 700;
+
+        this.statusSteps = [
+
+            "Verifying application integrity...",
+            "Loading recovery intelligence...",
+            "Loading cyber knowledge base...",
+            "Initializing AI reasoning engine...",
+            "Loading protection modules...",
+            "Synchronizing security components...",
+            "Establishing secure environment...",
+            "System integrity verified.",
+            "Welcome to CyberShield Assist."
+
+        ];
+
+        this.statusContainer =
+            document.getElementById("bootStatus");
+
+        this.initializeButton =
+            document.getElementById("initializeSession");
+
+    }
+
+    async start() {
+
+        if(this.initializing)
+            return;
+
+        this.initializing = true;
+
+        this.disableInitializeButton();
+
+        await this.delay(1000);
+
+        await this.playBootSequence();
+
+        this.enableInitializeButton();
+
+        this.bootCompleted = true;
+
+        document.dispatchEvent(
+            new CustomEvent("bootCompleted")
+        );
+
+    }
+
+    async playBootSequence() {
+
+        for(const message of this.statusSteps){
+
+            await this.showStatus(message);
+
+            await this.delay(this.bootDelay);
+
+        }
+
+    }
+
+    async showStatus(message){
+
+        const line = document.createElement("div");
+
+        line.className = "boot-line";
+
+        line.innerHTML =
+            `<span class="boot-dot"></span>${message}`;
+
+        this.statusContainer.appendChild(line);
+
+        requestAnimationFrame(()=>{
+
+            line.classList.add("visible");
+
+        });
+
+        this.scrollToBottom();
+
+    }
+
+    scrollToBottom(){
+
+        this.statusContainer.scrollTop =
+            this.statusContainer.scrollHeight;
+
+    }
+
+    disableInitializeButton(){
+
+        if(!this.initializeButton)
+            return;
+
+        this.initializeButton.disabled = true;
+
+        this.initializeButton.classList.add("disabled");
+
+        this.initializeButton.innerText =
+            "Initializing System...";
+
+    }
+
+    enableInitializeButton(){
+
+        if(!this.initializeButton)
+            return;
+
+        this.initializeButton.disabled = false;
+
+        this.initializeButton.classList.remove("disabled");
+
+        this.initializeButton.innerText =
+            "Initialize Secure Session";
+
+    }
+
+    delay(ms){
+
+        return new Promise(resolve=>{
+
+            setTimeout(resolve,ms);
+
+        });
+
+    }
+
+}
+
+/******************************************************************************
+ * Boot Manager
+ ******************************************************************************/
+
+const BootManager = new InitializationEngine();
+
+window.addEventListener("load",()=>{
+
+    BootManager.start();
+
+});
