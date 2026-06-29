@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="CyberShield Assist - AI Powered Cyber Victim Assistance System">
+
+    <meta name="author"
+          content="CyberShield Assist">
+
+    <meta name="theme-color"
+          content="#050A18">
+
+    <title>CyberShield Assist | Secure Login</title>
+
+    <!-- ==========================================================
+         CSS
+    =========================================================== -->
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <link rel="stylesheet" href="css/login.css">
+
+    <!-- ==========================================================
+         Fonts
+    =========================================================== -->
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+</head>
+
+<body>
+
+<!-- ==========================================================
+     BACKGROUND
+=========================================================== -->
+
+<div id="background">
+
+    <div id="networkBackground"></div>
+
+    <div id="particleContainer"></div>
+
+    <div id="backgroundGlow"></div>
+
+</div>
+
+<!-- ==========================================================
+     MAIN CONTAINER
+=========================================================== -->
+
+<div id="loginContainer">
+
+<!-- ==========================================================
+     LEFT SIDE
+=========================================================== -->
+
+<section id="heroSection">
+
+    <!-- ------------------------------------------
+         Logo & Title
+    ------------------------------------------- -->
+
+    <div id="heroHeader">
+
+        <img src="assets/logo/logo.png"
+             alt="CyberShield Assist"
+             id="systemLogo">
+
+        <h1 id="systemTitle">
+
+            CyberShield Assist
+
+        </h1>
+
+        <p id="systemSubtitle">
+
+            AI-Powered Cyber Victim Assistance Platform
+
+        </p>
+
+    </div>
+
+    <!-- ------------------------------------------
+         AI CORE
+    ------------------------------------------- -->
+
+    <div id="coreWrapper">
+
+        <div class="ring ring1"></div>
+
+        <div class="ring ring2"></div>
+
+        <div class="ring ring3"></div>
+
+        <div class="ring ring4"></div>
+
+        <div class="ring ring5"></div>
+
+        <div id="aiCore">
+
+            <div id="coreGlow"></div>
+
+            <div id="coreLogo">
+
+                CSA
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ------------------------------------------
+         AI STATUS
+    ------------------------------------------- -->
+
+    <div id="coreStatus">
+
+        <div class="statusItem">
+
+            <span class="statusDot"></span>
+
+            <span>Secure</span>
+
+        </div>
+
+        <div class="statusItem">
+
+            <span class="statusDot"></span>
+
+            <span>Threat Intelligence Ready</span>
+
+        </div>
+
+        <div class="statusItem">
+
+            <span class="statusDot"></span>
+
+            <span>Recovery Engine Online</span>
+
+        </div>
+
+        <div class="statusItem">
+
+            <span class="statusDot"></span>
+
+            <span>Knowledge Base Loaded</span>
+
+        </div>
+
+        <div class="statusItem">
+
+            <span class="statusDot"></span>
+
+            <span>System Integrity Verified</span>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ==========================================================
+     CENTER INITIALIZATION AREA
+=========================================================== -->
+
+<section id="bootSection">
+
+    <div id="bootWindow">
+
+        <div id="bootHeader">
+
+            SYSTEM INITIALIZATION
+
+        </div>
+
+        <div id="bootStatus">
+
+            <!-- app.js inserts boot messages here -->
+
+        </div>
+
+        <button id="initializeSession"
+                disabled>
+
+            Initializing System...
+
+        </button>
+
+    </div>
+
+</section>
+<!-- ==========================================================
+     RIGHT SIDE
+     AI STATUS & LOGIN AREA
+=========================================================== -->
+
+<section id="controlSection">
+
+    <!-- ==========================================
+         AI STATUS PANEL
+    =========================================== -->
+
+    <div id="aiStatusPanel">
+
+        <div class="panelHeader">
+
+            <span class="panelTitle">
+
+                AI STATUS
+
+            </span>
+
+        </div>
+
+        <div id="securityPanel">
+
+            <span class="statusDot active"></span>
+
+            <span id="securityStatus">
+
+                Secure
+
+            </span>
+
+        </div>
+
+        <div id="aiMessage">
+
+            Initializing Recovery Intelligence...
+
+        </div>
+
+        <div id="aiActivity">
+
+            Recovery Engine Ready
+
+        </div>
+
+    </div>
+
+    <!-- ==========================================
+         LIVE CYBER ACTIVITY
+    =========================================== -->
+
+    <div id="activityPanel">
+
+        <div class="panelHeader">
+
+            <span class="panelTitle">
+
+                LIVE CYBER ACTIVITY
+
+            </span>
+
+        </div>
+
+        <div class="activityFeed">
+
+            <div class="feedItem">
+
+                Monitoring phishing indicators...
+
+            </div>
+
+            <div class="feedItem">
+
+                Recovery templates loaded...
+
+            </div>
+
+            <div class="feedItem">
+
+                Threat classification engine active...
+
+            </div>
+
+            <div class="feedItem">
+
+                Knowledge graph synchronized...
+
+            </div>
+
+            <div class="feedItem">
+
+                Incident analysis module ready...
+
+            </div>
+
+            <div class="feedItem">
+
+                Protection engine initialized...
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ==========================================
+         LOGIN PANEL
+    =========================================== -->
+
+    <div id="loginPanel">
+
+        <div class="loginHeader">
+
+            Secure Authentication
+
+        </div>
+
+        <form id="loginForm"
+              autocomplete="off">
+
+            <div class="inputGroup">
+
+                <label for="username">
+
+                    Username
+
+                </label>
+
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    placeholder="Enter your username"
+                    required>
+
+            </div>
+
+            <div class="inputGroup">
+
+                <label for="password">
+
+                    Password
+
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Enter your password"
+                    required>
+
+            </div>
+
+            <button
+                id="loginButton"
+                type="submit">
+
+                Sign In
+
+            </button>
+
+        </form>
+
+    </div>
+
+    <!-- ==========================================
+         SYSTEM INFORMATION
+    =========================================== -->
+
+    <div id="systemInformation">
+
+        <div class="infoCard">
+
+            <div class="infoTitle">
+
+                PLATFORM
+
+            </div>
+
+            <div class="infoValue">
+
+                CyberShield Assist
+
+            </div>
+
+        </div>
+
+        <div class="infoCard">
+
+            <div class="infoTitle">
+
+                MODE
+
+            </div>
+
+            <div class="infoValue">
+
+                Secure Operations
+
+            </div>
+
+        </div>
+
+        <div class="infoCard">
+
+            <div class="infoTitle">
+
+                VERSION
+
+            </div>
+
+            <div class="infoValue">
+
+                Version 1.0
+
+            </div>
+
+        </div>
+
+        <div class="infoCard">
+
+            <div class="infoTitle">
+
+                SESSION
+
+            </div>
+
+            <div class="infoValue">
+
+                Awaiting Authentication
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ==========================================================
+     CLOSE MAIN CONTAINER
+=========================================================== -->
+
+</div>
+<!-- ==========================================================
+     OPTIONAL AUDIO
+=========================================================== -->
+
+<audio id="startupSound" preload="auto">
+    <source src="assets/sounds/startup.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="successSound" preload="auto">
+    <source src="assets/sounds/login-success.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="notificationSound" preload="auto">
+    <source src="assets/sounds/notification.mp3" type="audio/mpeg">
+</audio>
+
+<!-- ==========================================================
+     LOADING OVERLAY
+=========================================================== -->
+
+<div id="loadingOverlay">
+
+    <div id="loadingCore">
+
+        <div class="loadingRing ringA"></div>
+
+        <div class="loadingRing ringB"></div>
+
+        <div class="loadingRing ringC"></div>
+
+        <div class="loadingLogo">
+
+            CSA
+
+        </div>
+
+    </div>
+
+    <div id="loadingText">
+
+        Establishing Secure Session...
+
+    </div>
+
+</div>
+
+<!-- ==========================================================
+     FOOTER
+=========================================================== -->
+
+<footer id="loginFooter">
+
+    <div>
+
+        CyberShield Assist • AI-Powered Cyber Victim Assistance System
+
+    </div>
+
+    <div>
+
+        Secure • Intelligent • Recovery Focused
+
+    </div>
+
+</footer>
+
+<!-- ==========================================================
+     JAVASCRIPT
+=========================================================== -->
+
+<script src="js/app.js"></script>
+
+<script src="js/ai.js"></script>
+
+<script src="js/auth.js"></script>
+
+<script src="js/api.js"></script>
+
+</body>
+
+</html>
