@@ -24,6 +24,18 @@
             .container { border: none; box-shadow: none; }
             .no-print { display: none; }
         }
+        /* Hacker-style scanning animation */
+.scanning {
+    color: var(--neon);
+    font-family: 'Courier New', monospace;
+    border-right: 3px solid var(--neon);
+    white-space: nowrap;
+    overflow: hidden;
+    animation: typing 2s steps(40, end), blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing { from { width: 0 } to { width: 100% } }
+@keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: var(--neon); } }
     </style>
 </head>
 <body>
@@ -49,25 +61,29 @@
 <script>
     async function processInput() {
     const summary = document.getElementById('userInput').value;
-    const url = "https://script.google.com/macros/s/AKfycbwYJm7OUaT-uqiqjs1lgrtPZ0s0msfxWXIb2PHy2y5t_OjpL4MoagdsLiRdfmgtxRdr/exec"; //URL
-
-    // Show a "Processing" state
-    document.getElementById('app').innerHTML = "<h3>Analyzing threat patterns...</h3>";
-
-    const response = await fetch(url, {
-        method: "POST",
-        body: JSON.stringify({ summary: summary })
-    });
     
-    const result = await response.json();
-    
-    // Display the result
-    document.getElementById('app').innerHTML = `
-        <h3>Analysis Results</h3>
-        <p><strong>Risk Level:</strong> ${result.risk}</p>
-        <p><strong>Advice:</strong> ${result.analysis}</p>
-        <button onclick="window.print()">[ PRINT HARD COPY ]</button>
-    `;
+    // 1. Change the UI to show active scanning
+    const app = document.getElementById('app');
+    app.innerHTML = `<div class="scanning">[SYSTEM] INITIALIZING THREAT ANALYSIS...</div>`;
+
+    try {
+        const response = await fetch("YOUR_GOOGLE_APPS_SCRIPT_URL_HERE", {
+            method: "POST",
+            body: JSON.stringify({ summary: summary })
+        });
+        
+        const result = await response.json();
+        
+        // 2. Display results with a "Success" tone
+        app.innerHTML = `
+            <h3 style="color: #00ff00;">[+] THREAT DIAGNOSTICS COMPLETE</h3>
+            <p><strong>Risk Index:</strong> ${result.risk}</p>
+            <p><strong>Action Plan:</strong> ${result.analysis}</p>
+            <button onclick="window.print()">[ PRINT INCIDENT REPORT ]</button>
+        `;
+    } catch (error) {
+        app.innerHTML = `<h3 style="color: #ff0000;">[!] CRITICAL ERROR: Connection Timeout</h3>`;
+    }
 }
 </script>
 
