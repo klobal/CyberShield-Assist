@@ -379,15 +379,132 @@ const App={
 
                     <div id="reportArea">
 
-                        No report generated yet.
+${
+App.state.report ?
 
-                    </div>
+`
+<p><strong>Risk:</strong></p>
+<p>${App.state.report.risk}</p>
+
+<hr>
+
+<p><strong>Analysis</strong></p>
+<p>${App.state.report.analysis}</p>
+
+<hr>
+
+<p><strong>Mitigation</strong></p>
+<p>${App.state.report.mitigation}</p>
+
+<br>
+
+<button onclick="window.print()">
+
+PRINT REPORT
+
+</button>
+
+`
+
+:
+
+`No report generated yet.`
+
+}
+
+</div>
 
                 </div>
 
                 `;
 
             break;
+
+        }
+
+    }
+
+};
+    const Interview = {
+
+    async submit() {
+
+        const input = document.getElementById("incident");
+
+        if (!input) {
+            alert("Incident input not found.");
+            return;
+        }
+
+        const summary = input.value.trim();
+
+        if (summary === "") {
+            alert("Please describe the cyber incident.");
+            return;
+        }
+
+        App.setStatus("ANALYZING INCIDENT...");
+
+        document.getElementById("view").innerHTML = `
+            <div class="card">
+                <h2>Analyzing...</h2>
+                <p>Please wait while CyberShield Assist analyzes the incident.</p>
+            </div>
+        `;
+
+        try {
+
+            const response = await fetch(CONFIG.API_URL, {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    summary: summary
+                })
+
+            });
+
+            const result = await response.json();
+
+            if (!result.success) {
+                throw new Error(result.error);
+            }
+
+            App.state.report = result;
+
+            App.setStatus("ANALYSIS COMPLETE");
+
+            App.navigate("report");
+
+        }
+
+        catch (err) {
+
+            console.error(err);
+
+            App.setStatus("ERROR");
+
+            document.getElementById("view").innerHTML = `
+                <div class="card">
+
+                    <h2 style="color:red;">
+                        ERROR
+                    </h2>
+
+                    <pre>${err}</pre>
+
+                    <button onclick="App.navigate('interview')">
+
+                        TRY AGAIN
+
+                    </button>
+
+                </div>
+            `;
 
         }
 
