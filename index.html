@@ -47,15 +47,28 @@
 </div>
 
 <script>
-    function processInput() {
-        const text = document.getElementById('userInput').value;
-        if(!text) { alert("Please provide details."); return; }
-        
-        // This is where you connect to Gemini API. 
-        // For now, it logs to console.
-        console.log("Analyzing:", text);
-        alert("Data sent to analysis engine. Proceeding to diagnostics...");
-    }
+    async function processInput() {
+    const summary = document.getElementById('userInput').value;
+    const url = "https://script.google.com/macros/s/AKfycbwYJm7OUaT-uqiqjs1lgrtPZ0s0msfxWXIb2PHy2y5t_OjpL4MoagdsLiRdfmgtxRdr/exec"; //URL
+
+    // Show a "Processing" state
+    document.getElementById('app').innerHTML = "<h3>Analyzing threat patterns...</h3>";
+
+    const response = await fetch(url, {
+        method: "POST",
+        body: JSON.stringify({ summary: summary })
+    });
+    
+    const result = await response.json();
+    
+    // Display the result
+    document.getElementById('app').innerHTML = `
+        <h3>Analysis Results</h3>
+        <p><strong>Risk Level:</strong> ${result.risk}</p>
+        <p><strong>Advice:</strong> ${result.analysis}</p>
+        <button onclick="window.print()">[ PRINT HARD COPY ]</button>
+    `;
+}
 </script>
 
 </body>
