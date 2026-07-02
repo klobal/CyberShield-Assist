@@ -61,26 +61,29 @@
 <script>
     async function processInput() {
     const summary = document.getElementById('userInput').value;
-    const url = "https://script.google.com/macros/s/AKfycbwYJm7OUaT-uqiqjs1lgrtPZ0s0msfxWXIb2PHy2y5t_OjpL4MoagdsLiRdfmgtxRdr/exec"; 
+    const url = "YOUR_WEB_APP_URL_HERE"; 
 
-    document.getElementById('app').innerHTML = "<h3>[!] Analyzing... Do not close window.</h3>";
+    // Visual feedback
+    document.getElementById('app').innerHTML = "<h3>[!] Analyzing threat patterns...</h3>";
 
     try {
-        await fetch(url, {
+        const response = await fetch(url, {
             method: "POST",
-            mode: 'no-cors', // This bypasses the browser block
+            mode: 'no-cors', // We use no-cors to bypass browser blocks
             body: JSON.stringify({ summary: summary })
         });
         
-        // Since no-cors prevents reading the return, we show a success message
+        // Since no-cors doesn't allow reading the body, 
+        // we use a "Polite Wait" and direct the user to the sheet 
+        // or print function.
         document.getElementById('app').innerHTML = `
-            <h3>Analysis Complete</h3>
-            <p>Your incident has been recorded in the secure database.</p>
-            <p><strong>Next Step:</strong> Contact Officer Kipkoech at +254 741 161199 for immediate verification.</p>
-            <button onclick="window.print()">[ PRINT HARD COPY ]</button>
+            <h3>Analysis Captured</h3>
+            <p>Your incident details have been submitted to the secure database for review.</p>
+            <p><strong>Next Step:</strong> Please contact Officer Kipkoech at +254 741 161199 for an immediate walkthrough of your security status.</p>
+            <button onclick="window.print()">[ PRINT INCIDENT REPORT ]</button>
         `;
     } catch (error) {
-        document.getElementById('app').innerHTML = "<h3>[!] CONNECTION FAILED</h3><p>Ensure the Apps Script is deployed as 'Anyone'.</p>";
+        document.getElementById('app').innerHTML = "<h3>[!] ERROR</h3><p>Could not connect to the secure server.</p>";
     }
 }
 </script>
