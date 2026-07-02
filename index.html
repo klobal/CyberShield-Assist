@@ -2,180 +2,61 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber-Ops | Central Police Station</title>
     <style>
-        :root {
-            --term-green: #00ff41;
-            --term-bg: #0d0208;
-            --term-dim: #008f11;
-        }
-        body { 
-            background: var(--term-bg); 
-            color: var(--term-green); 
-            font-family: 'Courier New', Courier, monospace; 
-            margin: 0; 
-            display: flex; 
-            height: 100vh;
-        }
-        #sidebar { width: 300px; border-right: 1px solid var(--term-dim); padding: 20px; }
-        #main-view { flex: 1; padding: 40px; overflow-y: auto; }
+        /* Cyber-Hacker Styling */
+        :root { --neon: #00f2ff; --bg: #0a0b10; }
+        body { background: var(--bg); color: #fff; font-family: 'Courier New', monospace; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
         
-        h1, h2, h3 { text-transform: uppercase; letter-spacing: 2px; }
-        button { 
-            background: transparent; color: var(--term-green); 
-            border: 1px solid var(--term-green); padding: 10px; 
-            cursor: pointer; width: 100%; margin-bottom: 10px;
+        .container { width: 90%; max-width: 700px; padding: 20px; border: 1px solid var(--neon); background: rgba(0,0,0,0.8); box-shadow: 0 0 15px rgba(0, 242, 255, 0.2); }
+        h1 { color: var(--neon); text-transform: uppercase; font-size: 1.2rem; border-bottom: 1px solid var(--neon); padding-bottom: 10px; }
+        
+        textarea { width: 100%; height: 120px; background: #000; color: var(--neon); border: 1px solid #333; padding: 10px; margin: 15px 0; }
+        button { background: transparent; color: var(--neon); border: 1px solid var(--neon); padding: 10px 20px; cursor: pointer; text-transform: uppercase; }
+        button:hover { background: var(--neon); color: #000; }
+        
+        .contact-block { margin-top: 30px; padding: 15px; border-top: 1px dashed var(--neon); font-size: 0.8rem; line-height: 1.6; }
+        
+        /* Print Styles */
+        @media print {
+            body { background: #fff; color: #000; }
+            .container { border: none; box-shadow: none; }
+            .no-print { display: none; }
         }
-        button:hover { background: var(--term-green); color: black; }
-        .data-stream { color: var(--term-dim); font-size: 0.9em; }
-        input, textarea {
-            background: black; border: 1px solid var(--term-dim);
-            color: var(--term-green); padding: 10px;
-            width: 100%; margin-bottom: 10px; box-sizing: border-box;
-        }
-        #report-body { white-space: pre-wrap; margin-bottom: 20px; }
     </style>
 </head>
 <body>
 
-    <aside id="sidebar">
-        <h2>> CYBERSHIELD_ASSIST</h2>
-        <div class="data-stream" id="status">STATUS: SYSTEM_READY</div>
-        <hr style="border: 0; border-top: 1px solid var(--term-dim);">
-        <nav id="nav-menu">
-            <button onclick="App.navigateTo('dashboard')">> [INIT_DASHBOARD]</button>
-            <button onclick="App.navigateTo('interview')">> [RUN_DIAGNOSTIC]</button>
-        </nav>
-    </aside>
+<div class="container">
+    <h1>[!] Cyber Incident Assessment Portal</h1>
+    <p>Status: <strong>Awaiting Data Input</strong></p>
+    
+    <div id="app">
+        <textarea id="userInput" placeholder="Describe the cyber incident..."></textarea>
+        <button onclick="processInput()">[ ANALYZE THREAT ]</button>
+    </div>
 
-    <main id="main-view">
-        <div id="content-render-target"></div>
-    </main>
+    <div class="contact-block">
+        <strong>[OFFICIAL SUPPORT]</strong><br>
+        Officer: <strong>Kipkoech Byegon</strong> (Attachment)<br>
+        Central Police Station, Nairobi<br>
+        <strong>Call/WhatsApp:</strong> +254 741 161199 / +254 701 711473<br>
+        <em>Open for third-party training & security consultations.</em>
+    </div>
+</div>
 
-    <script>
-        const GeminiEngine = {
-            async analyze(prompt) {
-                const apiKey = App.getApiKey();
-                const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+<script>
+    function processInput() {
+        const text = document.getElementById('userInput').value;
+        if(!text) { alert("Please provide details."); return; }
+        
+        // This is where you connect to Gemini API. 
+        // For now, it logs to console.
+        console.log("Analyzing:", text);
+        alert("Data sent to analysis engine. Proceeding to diagnostics...");
+    }
+</script>
 
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        system_instruction: { 
-                            parts: [{ text: "You are CyberShield, an elite incident response AI. Your tone is technical, concise, and professional. You provide actionable, safe recovery steps for cybercrime victims." }] 
-                        },
-                        contents: [{ role: "user", parts: [{ text: prompt }] }]
-                    })
-                });
-
-                const data = await response.json();
-                return data.candidates[0].content.parts[0].text;
-            }
-        };
-
-        const ReportEngine = {
-            async generate(incidentHistory) {
-                const prompt = `
-                    Act as an elite cyber incident response expert. 
-                    Based on the following incident history, generate a professional, 
-                    prioritized recovery plan for the victim. 
-                    Use Markdown formatting. Include:
-                    1. Risk Summary
-                    2. Immediate Actions (High Priority)
-                    3. Secondary Actions (Post-recovery)
-                    4. Recommended Resources (e.g., identity theft services, local law enforcement contact links).
-                    
-                    History: ${JSON.stringify(incidentHistory)}
-                `;
-
-                const report = await GeminiEngine.analyze(prompt);
-                return report;
-            },
-
-            async displayReport() {
-                document.getElementById('status').innerText = "STATUS: GENERATING_REPORT...";
-                const report = await this.generate(InterviewEngine.responses);
-                
-                const target = document.getElementById('content-render-target');
-                target.innerHTML = `
-                    <div class="card">
-                        <h2>> FINAL_RECOVERY_REPORT</h2>
-                        <div id="report-body">${report}</div>
-                        <button onclick="window.print()">> [PRINT_TO_PDF]</button>
-                        <button onclick="location.reload()">> [WIPE_SESSION]</button>
-                    </div>
-                `;
-                document.getElementById('status').innerText = "STATUS: RECOVERY_READY";
-            }
-        };
-
-        const InterviewEngine = {
-            responses: [],
-            
-            async submit(input) {
-                this.responses.push(input);
-                document.getElementById('status').innerText = "STATUS: ANALYZING_THREAT...";
-                
-                const aiAssessment = await GeminiEngine.analyze(`The user reported: "${input}". Provide a brief, one-sentence security assessment and the next logical diagnostic question.`);
-                
-                this.displayAssessment(aiAssessment);
-            },
-
-            displayAssessment(text) {
-                const target = document.getElementById('content-render-target');
-                target.innerHTML = `
-                    <div class="card">
-                        <h3>> ANALYSIS_FEEDBACK</h3>
-                        <p>${text}</p>
-                        <input type="text" id="next-input" placeholder="PROVIDE_DETAILS...">
-                        <button onclick="InterviewEngine.submit(document.getElementById('next-input').value)">> [CONTINUE_DIAGNOSTIC]</button>
-                        <button onclick="ReportEngine.displayReport()">> [FINALIZE_REPORT]</button>
-                    </div>
-                `;
-                document.getElementById('status').innerText = "STATUS: AWAITING_INPUT";
-            }
-        };
-
-        const App = {
-            state: { view: 'dashboard', authenticated: !!sessionStorage.getItem('gemini_key') },
-            
-            getApiKey() { return sessionStorage.getItem('gemini_key'); },
-
-            setApiKey(key) {
-                if (!key || key.length < 20) { alert("> ERROR: INVALID_KEY_FORMAT"); return; }
-                sessionStorage.setItem('gemini_key', key);
-                this.state.authenticated = true;
-                this.render();
-            },
-
-            navigateTo(view) {
-                this.state.view = view;
-                this.render();
-            },
-
-            render() {
-                const target = document.getElementById('content-render-target');
-                const views = {
-                    dashboard: `
-                        <h1>DASHBOARD</h1>
-                        <p>> STATUS: ${this.state.authenticated ? 'ENCRYPTED_SESSION_ACTIVE' : 'NO_KEY_FOUND'}</p>
-                        ${!this.state.authenticated ? `
-                            <input type="password" id="api-input" placeholder="ENTER_API_KEY_TO_INIT...">
-                            <button onclick="App.setApiKey(document.getElementById('api-input').value)">> [EXECUTE_AUTH]</button>
-                        ` : '<p>> READY FOR DIAGNOSTIC...</p>'}
-                    `,
-                    interview: `
-                        <h1>DIAGNOSTIC_MODE</h1>
-                        <p>> INITIALIZING INCIDENT STREAM...</p>
-                        <input type="text" id="diag-input" placeholder="DESCRIBE THE INCIDENT...">
-                        <button onclick="InterviewEngine.submit(document.getElementById('diag-input').value)">> [INITIAL_ASSESSMENT]</button>
-                    `
-                };
-                target.innerHTML = views[this.state.view];
-            }
-        };
-
-        App.render();
-    </script>
 </body>
 </html>
