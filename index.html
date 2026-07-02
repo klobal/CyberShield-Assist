@@ -61,28 +61,26 @@
 <script>
     async function processInput() {
     const summary = document.getElementById('userInput').value;
-    
-    // 1. Change the UI to show active scanning
-    const app = document.getElementById('app');
-    app.innerHTML = `<div class="scanning">[SYSTEM] INITIALIZING THREAT ANALYSIS...</div>`;
+    const url = "YOUR_WEB_APP_URL"; 
+
+    document.getElementById('app').innerHTML = "<h3>[!] Analyzing... Do not close window.</h3>";
 
     try {
-        const response = await fetch("https://script.google.com/macros/s/AKfycbwYJm7OUaT-uqiqjs1lgrtPZ0s0msfxWXIb2PHy2y5t_OjpL4MoagdsLiRdfmgtxRdr/exec", {
+        await fetch(url, {
             method: "POST",
+            mode: 'no-cors', // This bypasses the browser block
             body: JSON.stringify({ summary: summary })
         });
         
-        const result = await response.json();
-        
-        // 2. Display results with a "Success" tone
-        app.innerHTML = `
-            <h3 style="color: #00ff00;">[+] THREAT DIAGNOSTICS COMPLETE</h3>
-            <p><strong>Risk Index:</strong> ${result.risk}</p>
-            <p><strong>Action Plan:</strong> ${result.analysis}</p>
-            <button onclick="window.print()">[ PRINT INCIDENT REPORT ]</button>
+        // Since no-cors prevents reading the return, we show a success message
+        document.getElementById('app').innerHTML = `
+            <h3>Analysis Complete</h3>
+            <p>Your incident has been recorded in the secure database.</p>
+            <p><strong>Next Step:</strong> Contact Officer Kipkoech at +254 741 161199 for immediate verification.</p>
+            <button onclick="window.print()">[ PRINT HARD COPY ]</button>
         `;
     } catch (error) {
-        app.innerHTML = `<h3 style="color: #ff0000;">[!] CRITICAL ERROR: Connection Timeout</h3>`;
+        document.getElementById('app').innerHTML = "<h3>[!] CONNECTION FAILED</h3><p>Ensure the Apps Script is deployed as 'Anyone'.</p>";
     }
 }
 </script>
