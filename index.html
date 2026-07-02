@@ -72,23 +72,23 @@
         document.getElementById('app').innerHTML = "<h3>[!] Analyzing threat patterns...</h3>";
 
         try {
-            const response = await fetch(url, {
-                method: "POST",
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ summary: summary })
-            });
+            // Change your fetch call in index.html to this:
+const response = await fetch(url, {
+    method: "POST",
+    headers: { 'Content-Type': 'application/json' }, // Tell Google we are sending JSON
+    body: JSON.stringify({ summary: summary })
+});
 
-            // Parse the JSON returned by your Google Apps Script
-            const result = await response.json(); 
+const result = await response.json(); // Now you can read the data!
 
-            // Update display with data from the server
-            document.getElementById('app').innerHTML = `
-                <h3>Analysis Results</h3>
-                <p><strong>Risk Level:</strong> ${result.risk}</p>
-                <p><strong>Summary:</strong> ${result.analysis}</p>
-                <p><strong>Mitigation:</strong> ${result.mitigation}</p>
-                <button onclick="window.print()">[ PRINT HARD COPY ]</button>
-            `;
+// Update your display
+document.getElementById('app').innerHTML = `
+    <h3>Analysis Results</h3>
+    <p><strong>Risk Level:</strong> ${result.risk}</p>
+    <p><strong>Summary:</strong> ${result.analysis}</p>
+    <p><strong>Mitigation:</strong> ${result.mitigation}</p>
+    <button onclick="window.print()">[ PRINT HARD COPY ]</button>
+`;
         } catch (error) {
             console.error("Fetch error:", error);
             document.getElementById('app').innerHTML = "<h3>[!] ERROR</h3><p>Could not process analysis. Please ensure the backend is active.</p>";
