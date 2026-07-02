@@ -454,19 +454,13 @@ PRINT REPORT
 
         try {
 
-            const response = await fetch(CONFIG.API_URL, {
+            const response = await const form = new URLSearchParams();
+form.append("summary", summary);
 
-                method: "POST",
-
-                headers: {
-                    "Content-Type": "application/json"
-                },
-
-                body: JSON.stringify({
-                    summary: summary
-                })
-
-            });
+const response = await fetch(CONFIG.API_URL, {
+    method: "POST",
+    body: form
+});
 
             const result = await response.json();
 
